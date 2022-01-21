@@ -1,0 +1,22 @@
+/**
+ * Lugar donde se muestran los datos del modelo (a través del controlador)
+ * */
+
+package com.vista;
+
+import java.util.List;
+import com.model.Producto;
+
+public class ViewProducto {
+	
+	public void verProducto(Producto producto) {
+		System.out.println("Producto: " + producto);
+	}
+	
+	public void verListaProductos(List<Producto> listaProductos) {
+		System.out.println("------ LISTA DE PRODUCTOS ------");
+		for (Producto producto : listaProductos) {
+			System.out.println("Producto:" + producto);
+		}		
+	}
+}

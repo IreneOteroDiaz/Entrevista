@@ -1,0 +1,122 @@
+/**
+ * Implementación de la interfaz: "IProductoDao.java"
+ * 
+ * NOTA: Utilización de "Conexion.java" para la ejecución de comandos SQL.
+ * 
+ * */
+
+package com.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.connection.Conexion;
+import com.idao.IProductoDao;
+import com.model.Producto;
+
+public class ProductoDao implements IProductoDao{
+	
+	public int creacion(Producto producto) throws Exception {
+		
+		int claveAsignada = -1;
+		
+		try {	
+			PreparedStatement stmC = PrepararStatements.stmCrear;
+			if (stmC != null ) {
+				stmC.setString(1, producto.getNombre());
+				stmC.setString(2, producto.getMarca());
+				stmC.setString(3, producto.getDescripcion());
+				stmC.executeUpdate();
+				
+				ResultSet rs = stmC.getGeneratedKeys();
+				while (rs.next()) {
+					claveAsignada = rs.getInt(1);
+				}
+				 
+				stmC.close();
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo creacion (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo creacion");
+			e.printStackTrace();
+		}
+		
+		return claveAsignada;
+	}
+	
+	public List<Producto> recuperar() {
+		Connection con =null;
+		PreparedStatement stm= null;
+		ResultSet rs=null;
+		
+		String sql="SELECT * FROM PRODUCTOS ORDER BY ID";
+		
+		List<Producto> listaProductos= new ArrayList<Producto>();
+		
+		try {			
+			con= Conexion.conectar();
+			if (null == stm) stm = con.prepareStatement(sql);
+			rs=stm.executeQuery(sql);
+			while (rs.next()) {
+				Producto p=new Producto();
+				p.setId(rs.getInt(1));
+				p.setNombre(rs.getString(2));
+				p.setMarca(rs.getString(3));
+				p.setDescripcion(rs.getString(4));
+				listaProductos.add(p);
+			}
+			stm.close();
+			rs.close();
+			con.close();
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo recuperar");
+			e.printStackTrace();
+		}
+		
+		return listaProductos;
+	}
+	
+	public boolean actualizar(Producto producto) {
+		Connection con= null;
+		PreparedStatement stm= null;
+		
+		boolean actualizar=false;
+				
+		String sql="UPDATE PRODUCTOS SET nombre='"+producto.getNombre()+"', marca='"+producto.getMarca()+"', descripcion='"+producto.getDescripcion()+"'" +" WHERE ID="+producto.getId();
+		try {
+			con=Conexion.conectar();
+			if (null == stm) stm = con.prepareStatement(sql);
+			stm.execute(sql);
+			actualizar=true;
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDaoDao - método actualizar");
+			e.printStackTrace();
+		}		
+		return actualizar;
+	}
+	
+	public boolean eliminar(Producto producto) {
+		Connection con= null;
+		PreparedStatement stm= null;
+		
+		boolean eliminar=false;
+				
+		String sql="DELETE FROM PRODUCTOS WHERE ID=" + producto.getId();
+		try {
+			con=Conexion.conectar();
+			if (null == stm) stm = con.prepareStatement(sql);
+			stm.execute(sql);
+			eliminar=true;
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo eliminar");
+			e.printStackTrace();
+		}		
+		return eliminar;
+	}
+	
+}

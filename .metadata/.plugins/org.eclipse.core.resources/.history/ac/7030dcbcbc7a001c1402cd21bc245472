@@ -1,0 +1,17 @@
+/**
+ * Interfaz que registra los métodos CRUD
+ * */
+
+package com.idao;
+
+import java.util.List;
+import com.model.*;
+ 
+public interface IProductoDao {	
+	
+	public boolean creacion(Producto producto);
+	public List<Producto> recuperar();
+	public boolean actualizar(Producto producto);
+	public boolean eliminar(Producto producto);
+	
+}

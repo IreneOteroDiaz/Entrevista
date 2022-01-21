@@ -1,0 +1,130 @@
+/**
+ * Implementación de la interfaz: "IProductoDao.java"
+ * 
+ * NOTA: Utilización de "Conexion.java" para la ejecución de comandos SQL.
+ * 
+ * */
+
+package com.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.connection.Conexion;
+import com.idao.IProductoDao;
+import com.model.Producto;
+
+public class ProductoDao implements IProductoDao{
+	
+	public int creacion(Producto producto) throws Exception {
+		
+		int claveAsignada = -1;
+		
+		try {	
+			PreparedStatement stmC = PrepararStatements.stmCrear;
+			if (stmC != null ) {
+				stmC.setString(1, producto.getNombre());
+				stmC.setString(2, producto.getMarca());
+				stmC.setString(3, producto.getDescripcion());
+				stmC.executeUpdate();
+				
+				ResultSet rs = stmC.getGeneratedKeys();
+				while (rs.next()) {
+					claveAsignada = rs.getInt(1);
+				}
+				 
+				stmC.close();
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo creacion (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo creacion");
+			e.printStackTrace();
+		}
+		
+		return claveAsignada;
+	}
+	
+	public boolean actualizar(Producto producto) throws Exception {
+	
+		boolean actualizar=false;
+				
+		try {
+			PreparedStatement stmA = PrepararStatements.stmAct;
+			if (stmA != null ) {
+				stmA.setString(1, producto.getNombre());
+				stmA.setString(2, producto.getMarca());
+				stmA.setString(3, producto.getDescripcion());
+				stmA.setInt(4, producto.getId());
+				stmA.executeUpdate();
+				
+				stmA.close();
+				
+				actualizar=true;
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo actualizar (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDaoDao - metodo actualizar");
+			e.printStackTrace();
+		}		
+		return actualizar;
+	}
+
+	public boolean eliminar(Producto producto) throws Exception {
+		boolean eliminar=false;
+			
+		try {
+			PreparedStatement stmE = PrepararStatements.stmEli;
+			if (stmE != null ) {
+				stmE.setInt(1, producto.getId());
+				stmE.executeUpdate();
+				stmE.close();
+				
+				eliminar=true;
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo eliminar (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo eliminar");
+			e.printStackTrace();
+		}		
+		return eliminar;
+	}
+	
+	public List<Producto> recuperar() throws Exception{
+		ResultSet rs=null;
+		List<Producto> listaProductos= new ArrayList<Producto>();
+		
+		try {	
+			PreparedStatement stmL = PrepararStatements.stmVer;
+			if (stmL != null ) {
+				stmL.execute();
+				rs = stmL.getResultSet();
+				while (rs.next()) {
+					Producto p=new Producto();
+					p.setId(rs.getInt(1));
+					p.setNombre(rs.getString(2));
+					p.setMarca(rs.getString(3));
+					p.setDescripcion(rs.getString(4));
+					listaProductos.add(p);
+				}
+			stmL.close();
+			rs.close();
+			
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo eliminar (No statement preparado)");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo recuperar");
+			e.printStackTrace();
+		}
+		
+		return listaProductos;
+	}
+}

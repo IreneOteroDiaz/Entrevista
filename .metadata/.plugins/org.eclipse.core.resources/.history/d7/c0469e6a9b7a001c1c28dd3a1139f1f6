@@ -1,0 +1,29 @@
+package com.demo;
+
+import com.controller.ControllerProducto;
+import com.model.Producto;
+
+public class CRUDDemo {
+	
+	public static void main(String[] args) {
+		 
+		Producto producto = new Producto("Patatas", 2.5);			
+		
+		ControllerProducto controller = new ControllerProducto();
+		
+		//Crear un producto a través del controlador.
+		controller.creacion(producto);
+		
+		//Ver la lista de todos los productos.
+		controller.verListaProductos();
+		
+		//Editar un producto mediante su identificador
+		producto.setId(1);
+		producto.setNombre("Lechuga");
+		controller.actualizar(producto);
+ 
+		//Eliminar un producto mediante el identificador
+		producto.setId(1);
+		controller.eliminar(producto);
+	}
+}
