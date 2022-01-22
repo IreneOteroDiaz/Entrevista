@@ -1,10 +1,11 @@
 /**
- * Conexión a la BD "prod".
- * 
- * Debido a la simplicidad del problema en el interior de dicha BD solo se encuentra la tabla "Productos".
- * Ahí se sitúan todos los productos donde, a su vez, he decidido de manera ejemplificativa que se almacene su id, nombre, marca y descipcion.
- * NOTA: Dicha base de datos se ha creado mediante MySQL + MySQLWorkbench.
+ * Clase que implementa la conexión a la base de datos "prod".
+ * Para esto es necesario el driver de conexión denominado "mysql-connector-java-8.0.28.jar"
+ * ecnontrado en "Referenced Libraries" del proyecto.
  *
+ * @author Irene Otero
+ * @version 1.0
+ * @since   2022-01-22
  * */
 
 package com.connection;
@@ -17,15 +18,20 @@ import java.util.HashMap;
 import com.dao.*;
  
 public class Conexion {
+	/**
+	* Este método es el encargado de realizar toda la conexión.
+	* @param nada
+	* @return HashMap con un objeto Connection "con" y con otro objeto PrepararStatements "ps" .
+	*/
 	public static HashMap<String,Object> conectar() {
 		Connection con = null;
 		
-		String password = "root";
-		String usuario = "root";
+		String password = "root"; 
+		String usuario = "root"; 
 		try {
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/prod?useServerPrepStmts=true",
-					usuario, password);
+					usuario, password); //Los mismos datos utilizados para la conexión en MySQL Workbench
 			if (con != null) {
 				System.out.println("Conectado");
 			}

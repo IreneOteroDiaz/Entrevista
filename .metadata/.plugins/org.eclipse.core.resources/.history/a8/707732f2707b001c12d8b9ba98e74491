@@ -1,0 +1,162 @@
+/**
+ * Implementación de la interfaz: "IProductoDao.java".
+ * Se implementan todas las operaciones CRUD del programa.
+ * NOTA: Utilización de "Conexion.java" para la ejecución de comandos SQL.
+ * 
+ * @author Irene Otero
+ * @version 1.0
+ * @since   2022-01-22
+ * */
+
+package com.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.idao.IProductoDao;
+import com.model.Producto;
+
+public class ProductoDao implements IProductoDao{
+	
+	private PrepararStatements ps;
+	
+	/**
+	* Contructor de la clase.
+	* La finalidad de su creación es el paso del parámetro de entrada.
+	* @param ps, de tipo PrepararStatements
+	*/
+	public ProductoDao(PrepararStatements ps){
+		this.ps = ps;
+	}
+	
+	/**
+	* Método que permite creacar un nuevo producto en la BD.
+	* @param producto, de tipo Producto, elemento que se desea insertar en la BD.
+	* @return int con la identificación que se le ha dado al producto una vez insertado.
+	* @exception Exception.
+	*/
+	public int creacion(Producto producto) throws Exception {
+		
+		int claveAsignada = -1;
+		
+		try {	
+			PreparedStatement stmC = ps.getStmCrear();
+			
+			if (stmC != null ) {
+				stmC.setString(1, producto.getNombre());
+				stmC.setString(2, producto.getMarca());
+				stmC.setString(3, producto.getDescripcion());
+				stmC.executeUpdate();
+				
+				ResultSet rs = stmC.getGeneratedKeys();
+				while (rs.next()) {
+					claveAsignada = rs.getInt(1);
+				}
+				 
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo creacion (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo creacion");
+			e.printStackTrace();
+		}
+		
+		return claveAsignada;
+	}
+	
+	/**
+	* Método que permite actualizar un producto en la BD.
+	* @param producto, de tipo Producto, elemento que se desea actualizar en la BD.
+	* @return boolean que marca a true si el producto se ha actualizado con éxito.
+	* @exception Exception.
+	*/
+	public boolean actualizar(Producto producto) throws Exception {
+	
+		boolean actualizar=false;
+				
+		try {
+			PreparedStatement stmA = ps.getStmAct();
+			if (stmA != null ) {
+				stmA.setString(1, producto.getNombre());
+				stmA.setString(2, producto.getMarca());
+				stmA.setString(3, producto.getDescripcion());
+				stmA.setInt(4, producto.getId());
+				stmA.executeUpdate();
+				
+				actualizar=true;
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo actualizar (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDaoDao - metodo actualizar");
+			e.printStackTrace();
+		}		
+		return actualizar;
+	}
+
+	/**
+	* Método que permite eliminar una tupla de la BD.
+	* @param producto, de tipo Producto, elemento que se desea borrar de la BD.
+	* @return boolean que marca a true si el producto se ha eliminado con éxito.
+	* @exception Exception.
+	*/
+	public boolean eliminar(Producto producto) throws Exception {
+		boolean eliminar=false;
+			
+		try {
+			PreparedStatement stmE = ps.getStmEli();
+			if (stmE != null ) {
+				stmE.setInt(1, producto.getId());
+				stmE.executeUpdate();
+				
+				eliminar=true;
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo eliminar (No statement preparado)");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo eliminar");
+			e.printStackTrace();
+		}		
+		return eliminar;
+	}
+	
+	/**
+	* Método que permite recuperar todas las tuplas de la tabla productos.
+	* @param sin uso.
+	* @return lista con todos los productos almacenados en la BD.
+	* @exception Exception.
+	*/
+	public List<Producto> recuperar() throws Exception{
+		ResultSet rs=null;
+		List<Producto> listaProductos= new ArrayList<Producto>();
+		
+		try {	
+			PreparedStatement stmL = ps.getStmVer();
+			if (stmL != null ) {
+				stmL.execute();
+				rs = stmL.getResultSet();
+				while (rs.next()) {
+					Producto p=new Producto();
+					p.setId(rs.getInt(1));
+					p.setNombre(rs.getString(2));
+					p.setMarca(rs.getString(3));
+					p.setDescripcion(rs.getString(4));
+					listaProductos.add(p);
+				}
+			rs.close();
+			
+			} else {
+				throw new Exception ("Error: Clase ProductoDao - metodo eliminar (No statement preparado)");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error: Clase ProductoDao - metodo recuperar");
+			e.printStackTrace();
+		}
+		
+		return listaProductos;
+	}
+}

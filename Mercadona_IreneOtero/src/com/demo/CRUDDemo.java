@@ -1,5 +1,9 @@
 /**
- * Creación de una demo para ver el funcionamiento del programa
+ * Creación de una demo para ver el funcionamiento del programa.
+ * 
+ * @author Irene Otero
+ * @version 1.0
+ * @since   2022-01-22
  * */
 
 package com.demo;

@@ -1,0 +1,22 @@
+/**
+ * Interfaz que registra los métodos CRUD.
+ * Al ser una interfaz solo contiene la firma de los métodos.
+ * 
+ * @author Irene Otero
+ * @version 1.0
+ * @since   2022-01-22
+ * */
+
+package com.idao;
+
+import java.util.List;
+import com.model.*;
+ 
+public interface IProductoDao {	
+	
+	public int creacion(Producto producto) throws Exception;
+	public boolean actualizar(Producto producto) throws Exception;
+	public boolean eliminar(Producto producto) throws Exception;
+	public List<Producto> recuperar() throws Exception;
+	
+}

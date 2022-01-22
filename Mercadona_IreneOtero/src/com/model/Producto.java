@@ -1,11 +1,9 @@
 /**
- * 	Mapea los atributos de la tabla "Producto" de la BD.
+ * Mapea los atributos de la tabla "productos" de la BD "prod".
  * 
- * ACLARACIONES:
- * id --> {Primary Key}
- * nombre --> {Valor No Nulo} (No he marcado unicidad por si se quisiera tener varios productos con el mismo nombre y diferente marca).
- * marca --> {Valor No Nulo}
- * descripcion --> sin restricciones ((Para poder añadir productos inicialmente sin necesidad de marcar ninguna descipción)
+ * @author Irene Otero
+ * @version 1.0
+ * @since   2022-01-22
  * */
 
 package com.model;
@@ -17,8 +15,17 @@ public class Producto {
 	private String marca; 
 	private String descripcion;
 	
+	/**
+	* Constructor por defecto.
+	*/
 	public Producto() {}
 	
+	/**
+	* Constructor con parámetros.
+	* @param nombre, indica el nombre del producto.
+	* @param marca, fabricante del producto.
+	* @param descripcion, breve descripción de los aspetctos más importantes.
+    */
 	public Producto(String nombre, String marca, String descripcion) {
 		this.id = id; //Autoincrementable en la BD - el usuario no le asigna el valor.
 		this.nombre = nombre;
@@ -26,37 +33,83 @@ public class Producto {
 		this.setDescripcion(descripcion);
 	}
 	
+	/**
+	* Getter id, obtención del identificador.
+	* @param sin uso.
+	* @return int referente al id.
+    */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	* Setter id, modificación del id del producto.
+	* @param id.
+	* @return nada.
+    */
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	* Getter nombre, obtención del nombre del producto.
+	* @param sin uso.
+	* @return String referente al nombre.
+    */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	* Setter nombre, modificación del nombre del producto.
+	* @param nombre.
+	* @return nada.
+    */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	* Getter marca, obtención de la marca del producto.
+	* @param sin uso.
+	* @return String referente a la marca.
+    */
 	public String getMarca() {
 		return marca;
 	}
 
+	/**
+	* Setter marca, modificación de la marca del producto.
+	* @param marca.
+	* @return nada.
+    */
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
 
+	/**
+	* Getter descripcion, obtención de la descripción del producto.
+	* @param sin uso.
+	* @return String referente a la descripcion.
+    */
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+	/**
+	* Setter descripción, modificación de la descripción del producto.
+	* @param descripcion.
+	* @return nada.
+    */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 	
+	/**
+	* Método que devuelve todos los valores del producto en un mismo String.
+	* @param sin uso.
+	* @return String con parámetros.
+    */
 	@Override
 	public String toString() {
 		return this.id + ", " + this.nombre + " (" + this.marca + ") -- " + this.descripcion;

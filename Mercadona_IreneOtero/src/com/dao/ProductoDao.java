@@ -1,8 +1,11 @@
 /**
- * Implementación de la interfaz: "IProductoDao.java"
- * 
+ * Implementación de la interfaz: "IProductoDao.java".
+ * Se implementan todas las operaciones CRUD del programa.
  * NOTA: Utilización de "Conexion.java" para la ejecución de comandos SQL.
  * 
+ * @author Irene Otero
+ * @version 1.0
+ * @since   2022-01-22
  * */
 
 package com.dao;
@@ -20,10 +23,21 @@ public class ProductoDao implements IProductoDao{
 	
 	private PrepararStatements ps;
 	
+	/**
+	* Constructor de la clase.
+	* La finalidad de su creación es el paso del parámetro de entrada.
+	* @param ps, de tipo PrepararStatements
+	*/
 	public ProductoDao(PrepararStatements ps){
 		this.ps = ps;
 	}
 	
+	/**
+	* Método que permite creacar un nuevo producto en la BD.
+	* @param producto, de tipo Producto, elemento que se desea insertar en la BD.
+	* @return int con la identificación que se le ha dado al producto una vez insertado.
+	* @exception Exception.
+	*/
 	public int creacion(Producto producto) throws Exception {
 		
 		int claveAsignada = -1;
@@ -53,6 +67,12 @@ public class ProductoDao implements IProductoDao{
 		return claveAsignada;
 	}
 	
+	/**
+	* Método que permite actualizar un producto en la BD.
+	* @param producto, de tipo Producto, elemento que se desea actualizar en la BD.
+	* @return boolean que marca a true si el producto se ha actualizado con éxito.
+	* @exception Exception.
+	*/
 	public boolean actualizar(Producto producto) throws Exception {
 	
 		boolean actualizar=false;
@@ -77,6 +97,12 @@ public class ProductoDao implements IProductoDao{
 		return actualizar;
 	}
 
+	/**
+	* Método que permite eliminar una tupla de la BD.
+	* @param producto, de tipo Producto, elemento que se desea borrar de la BD.
+	* @return boolean que marca a true si el producto se ha eliminado con éxito.
+	* @exception Exception.
+	*/
 	public boolean eliminar(Producto producto) throws Exception {
 		boolean eliminar=false;
 			
@@ -97,6 +123,12 @@ public class ProductoDao implements IProductoDao{
 		return eliminar;
 	}
 	
+	/**
+	* Método que permite recuperar todas las tuplas de la tabla productos.
+	* @param sin uso.
+	* @return lista con todos los productos almacenados en la BD.
+	* @exception Exception.
+	*/
 	public List<Producto> recuperar() throws Exception{
 		ResultSet rs=null;
 		List<Producto> listaProductos= new ArrayList<Producto>();
