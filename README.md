@@ -1,6 +1,6 @@
 # Mercadona: Irene Otero
 
-Este programa ha sido creado con la finalidad de llevar a cabo las operaciones CRUD básicas sobre un listado de productos, es decir, sobre una base de datos creada que contiene todos los elementos se pueden implantar los siguientes aspectos: crear, actualizar, visualizar y eliminar.
+Este programa ha sido creado con la finalidad de llevar a cabo las operaciones CRUD básicas sobre un listado de productos, es decir, sobre una base de datos creada que contiene todos los elementos, se pueden implantar los siguientes aspectos: crear, actualizar, visualizar y eliminar.
 
 ## - Consideraciones previas -
 
@@ -24,8 +24,8 @@ Consta de dos apartados:
     * _model/Producto_ - mapeo de los atributos de la tabla "Producto" de la BD.
     * _vista/ViewProducto_ - muestra los datos del modelo.
 
-* **Base de datos - MySQL** _Contiene la BD creada denominada "prod" con una tabla "Productos" que almacena todos los elementos que se deseen._
-En dicha tabla de manera ejemplificativa se han incluido cuatro atributos:
+* **Base de datos - MySQL** _Contiene la BD creada denominada "prod" con una tabla "productos" que almacena todos los elementos que se deseen.
+En dicha tabla de manera ejemplificativa se han incluido cuatro atributos:_
     * _id_: {Primary Key}: para la identificación de cada tupla.
     * _nombre_: {Valor No Nulo}: indica el nombre del producto.
     * _marca_: {Valor No Nulo}: la marca de dicho producto.
@@ -46,8 +46,8 @@ contraseña: root
 Debido a que no se marcaron especificaciones al respecto, decidí crear una tabla ejemplificativa con la que poder trabajar y manejar toda la implantación de las operaciones CRUD. El aspecto más notable de esta es que para facilitar el usuario la puesta de datos, la propia BD es la encargada de auto_incrementar los id, por lo que, dicho atributo es transparente al cliente del sistema.
 
 ### Utilización PreparedStatements 🔗
-Debido a que es posible que haya una alta utilización de las mismas sentencias en este programa, he considerado que lo más correcto deseando mejorar la eficiencia era utilizar los *PreparedStatements*. Este mecanismo permite indicar previamente el tipo de sentencia que vamos a usar, de forma que la base de datos la "precompila" y la guarda en condiciones de ser ejecutada inmediatamente, sin necesidad de analizarla en cada caso.
-Ademas, como pequeño punto extra cabe destacar que tiene una mayor seguridad ya que aporta manejo de cadenas y valores.
+Debido a que es posible que haya una alta utilización de las mismas sentencias en este programa, he considerado que lo más correcto (deseando mejorar la eficiencia) era utilizar los *PreparedStatements*. Este mecanismo permite indicar previamente el tipo de sentencia que vamos a usar, de forma que la base de datos la "precompila" y la guarda en condiciones de ser ejecutada inmediatamente, sin necesidad de analizarla en cada caso.
+Ademas, como pequeño punto extra cabe destacar que tiene una mayor seguridad, ya que, aporta manejo de cadenas y valores.
 
 ## - Autora -
 **Irene Otero Díaz** - estudiante UPV y candidata a prácticas.
